@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import initDemographicsData from "../assets/demographics.json";
-import ShowType from "../components/assets/Show.types";
+import ShowType from "../components/utils/Show.types";
 
 import Button from "../components/Button/Button.component";
 import DemographicItem from "../components/Demographic-item/Demographic-item.component";

@@ -14,7 +14,7 @@ const DemographicItem = (props) => {
 
   const { label, items } = props;
 
-  const handleMoreClick = (evnt) => {
+  const handleMoreClick = () => {
     setExpanded(true);
   };
 
