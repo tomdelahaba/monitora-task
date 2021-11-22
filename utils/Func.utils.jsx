@@ -1,4 +1,4 @@
-import TagTypes from "../utils/Tag.types";
+import TagTypes from "./Tag.types";
 
 export const tagTypeForProps = (diff) => {
   if (diff <= -3) {
