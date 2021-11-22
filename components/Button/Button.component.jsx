@@ -3,9 +3,9 @@ import {
   IconImg,
   ButtonWrapper,
   SpanWrapper,
-} from "./Custom-button.styles";
+} from "./Button.styles";
 
-const CustomButton = (props) => {
+const Button = (props) => {
   return (
     <ButtonWrapper as='a' onClick={props.handleClick} className={props.cName}>
       <IconWrapper>
@@ -16,4 +16,4 @@ const CustomButton = (props) => {
   );
 };
 
-export default CustomButton;
+export default Button;

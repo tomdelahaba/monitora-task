@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import TagTypes from "../assets/Tag.types";
+import TagTypes from "../utils/Tag.types";
 
 const green = "#28a745";
 const red = "#dc3545";
