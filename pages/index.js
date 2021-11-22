@@ -1,44 +1,43 @@
-import DemographicItem from "../components/Demographic-item/Demographic-item.component";
-
 import { useEffect, useState } from "react";
 
-import demographicsData from "../assets/demographics.json";
+import initDemographicsData from "../assets/demographics.json";
 import ShowType from "../components/assets/Show.types";
-import CustomButton from "../components/Custom-button/Custom-button.component";
+
+import Button from "../components/Button/Button.component";
+import DemographicItem from "../components/Demographic-item/Demographic-item.component";
 
 import styles from "../styles/Home.module.css";
 
 const Homepage = () => {
-  const [data, setData] = useState([]);
+  const [demographicsData, setDemographicsData] = useState([]);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [showType, setShowType] = useState(ShowType.SHOW_ALL);
 
   useEffect(() => {
-    setSubtitle(demographicsData.subtitle);
-    setTitle(demographicsData.title);
-    setData(demographicsData.data);
+    setSubtitle(initDemographicsData.subtitle);
+    setTitle(initDemographicsData.title);
+    setDemographicsData(initDemographicsData.data);
   }, []);
 
-  const filterArr = (showType) => (item) => {
+  const filterByType = (showType) => (item) => {
     return showType == ShowType.SHOW_LOWER
       ? item.percent - item.percent_avg <= -3
       : item.percent - item.percent_avg >= 3;
   };
 
-  const handleClick = (params) => (evnt) => {
-    let newData = [];
+  const handleFilterClick = (params) => (evnt) => {
     setShowType(params);
     if (params === ShowType.SHOW_ALL) {
-      setData(demographicsData.data);
+      setDemographicsData(initDemographicsData.data);
     } else {
-      newData = demographicsData.data
+      const filteredData = initDemographicsData.data
         .map((obj) => {
-          const newItems = obj.items.filter(filterArr(params));
-          return { label: obj.label, items: newItems };
+          const filteredItems = obj.items.filter(filterByType(params));
+          return { label: obj.label, items: filteredItems };
         })
         .filter((obj) => (obj.items.length ? obj : null));
-      setData(newData);
+      setDemographicsData(filteredData);
     }
   };
 
@@ -47,29 +46,29 @@ const Homepage = () => {
       <h1 className={styles.subtitle}>{subtitle}</h1>
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.filters}>
-        <CustomButton
-          handleClick={handleClick(ShowType.SHOW_ALL)}
+        <Button
+          handleClick={handleFilterClick(ShowType.SHOW_ALL)}
           cName={`${showType === ShowType.SHOW_ALL ? "active" : ""}`}
           icon='/all.svg'
         >
           Vše
-        </CustomButton>
-        <CustomButton
-          handleClick={handleClick(ShowType.SHOW_HIGHER)}
+        </Button>
+        <Button
+          handleClick={handleFilterClick(ShowType.SHOW_HIGHER)}
           cName={`${showType === ShowType.SHOW_HIGHER ? "active" : ""}`}
           icon='/above-average.svg'
         >
           Nadprůměr
-        </CustomButton>
-        <CustomButton
-          handleClick={handleClick(ShowType.SHOW_LOWER)}
+        </Button>
+        <Button
+          handleClick={handleFilterClick(ShowType.SHOW_LOWER)}
           cName={`${showType === ShowType.SHOW_LOWER ? "active" : ""}`}
           icon='/bellow-average.svg'
         >
           Podprůměr
-        </CustomButton>
+        </Button>
       </div>
-      {data.map((item, i) => (
+      {demographicsData.map((item, i) => (
         <DemographicItem key={`${item.label}`} {...item} />
       ))}
     </main>
